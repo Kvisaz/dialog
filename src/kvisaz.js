@@ -2,7 +2,6 @@ const libraryName = 'Kvisaz';
 
 // мгновенно исполняемая функция, которая наполняет передаваемый ей объект
 (function (moduleName) {
-    console.log('модуль сработал');
     const module = {};
     window[moduleName] = module;
 
@@ -154,7 +153,6 @@ const libraryName = 'Kvisaz';
     }
 
     function onWrapperClick(e) {
-        console.log('onWrapperClick');
         e.stopImmediatePropagation();
         if (e.target.classList.contains(CSS.buttonClass)) {
             onButtonClick(e.target);
@@ -213,7 +211,6 @@ const libraryName = 'Kvisaz';
     }
 
     function onButtonClick(buttonEl) {
-        console.log('click on button ', buttonEl);
         try {
             const btIndex = buttonEl.dataset.index;
             const callback = module.options.buttons[btIndex].callback;
@@ -247,7 +244,6 @@ const libraryName = 'Kvisaz';
 
     function divCodeOptions(options, name, className) {
         if (options[name] == null) return '';
-        console.log(`${name}: `, options[name]);
         return divCode(options[name], className);
     }
 
@@ -279,5 +275,3 @@ const libraryName = 'Kvisaz';
     }
 
 })(libraryName)
-
-console.log(`Объект библиотеки ${libraryName} - `, window[libraryName]);

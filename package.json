@@ -1,0 +1,25 @@
+{
+  "name": "kvisaz-dialog",
+  "version": "0.0.9",
+  "description": "Simple modal dialog library",
+  "main": "kvisaz.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kvisaz/dialog.git"
+  },
+  "keywords": [
+    "modal",
+    "dialog",
+    "modal",
+    "window"
+  ],
+  "author": "Kvisaz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kvisaz/dialog/issues"
+  },
+  "homepage": "https://github.com/Kvisaz/dialog#readme"
+}

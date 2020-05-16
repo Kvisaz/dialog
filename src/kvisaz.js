@@ -14,7 +14,6 @@ const libraryName = 'Kvisaz';
     const CSS = {
         wrapperClass: 'kvisaz-dialog-wrapper',
         shadowClass: 'kvisaz-shadow',
-        shadowId: 'kvisaz-shadow',
         winId: 'kvisaz-dialog',
         winClass: 'kvisaz-dialog',
         winClassShow: 'kvisaz-dialog-show',
@@ -22,7 +21,8 @@ const libraryName = 'Kvisaz';
         titleClass: 'kvisaz-dialog-title',
         textClass: 'kvisaz-dialog-text',
         buttonClass: 'kvisaz-dialog-button',
-        buttonWrapClass: 'kvisaz-button-wrap'
+        buttonWrapClass: 'kvisaz-button-wrap',
+        styleId: 'kvisaz-dialog-style'
 
     }
     //language=CSS
@@ -36,13 +36,7 @@ const libraryName = 'Kvisaz';
         }
 
         .${CSS.shadowClass} {
-            background: black;
-            opacity: 0.75;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+            background: rgba(0,0,0,0.75);
         }
         
         .${CSS.winId} {
@@ -115,9 +109,10 @@ const libraryName = 'Kvisaz';
      */
     function dialog(options) {
         const wrapper = createWrapper(options);
-        const shadow = createShadow(options);
+        wrapper.classList.add(CSS.shadowClass);
+       // const shadow = createShadow(options);
         const win = createWindow(options);
-        wrapper.appendChild(shadow);
+      //  wrapper.appendChild(shadow);
         wrapper.appendChild(win);
 
         wrapper.addEventListener('click', onWrapperClick);
@@ -140,13 +135,13 @@ const libraryName = 'Kvisaz';
     function injectStyle(styleText) {
         const el = document.createElement('style');
         el.innerHTML = styleText;
-        el.id = CSS.shadowId;
+        el.id = CSS.styleId;
         document.head.appendChild(el);
     }
 
 
     /**************************************
-     *  wrapper
+     *  wrapper is shadow (rgba) and click interceptor
      *************************************/
     function createWrapper(options) {
         return div(CSS.wrapperClass);
@@ -168,16 +163,6 @@ const libraryName = 'Kvisaz';
         }
         el.removeEventListener('click', onWrapperClick);
         if (el.parentNode != null) el.parentNode.removeChild(el);
-    }
-
-    /**************************************
-     *  shadow
-     *************************************/
-
-    function createShadow(options) {
-        const el = div(CSS.shadowClass);
-        el.id = CSS.shadowId;
-        return el;
     }
 
     /**************************************

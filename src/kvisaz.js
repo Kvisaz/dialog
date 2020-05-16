@@ -33,6 +33,9 @@ const libraryName = 'Kvisaz';
             height: 100%;
             top: 0;
             left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .${CSS.shadowClass} {
@@ -48,16 +51,11 @@ const libraryName = 'Kvisaz';
             transition: all 0.25s ease-in;
             width: 35%;
             background: beige;
-            position: fixed;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50%);
+            margin-bottom: 100%;
         }        
         
-        .${CSS.winClassShow} {            
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50%);
+        .${CSS.winClassShow} {  
+          margin: 0;    
         }
         
         .${CSS.winContentClass} {}
@@ -110,9 +108,9 @@ const libraryName = 'Kvisaz';
     function dialog(options) {
         const wrapper = createWrapper(options);
         wrapper.classList.add(CSS.shadowClass);
-       // const shadow = createShadow(options);
+        // const shadow = createShadow(options);
         const win = createWindow(options);
-      //  wrapper.appendChild(shadow);
+        //  wrapper.appendChild(shadow);
         wrapper.appendChild(win);
 
         wrapper.addEventListener('click', onWrapperClick);

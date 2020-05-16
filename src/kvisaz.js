@@ -48,10 +48,10 @@ const libraryName = 'Kvisaz';
         }        
         .${CSS.winClass} {
             opacity: 1;
-            transition: all 0.25s ease-in;
+            transition: all 0.2s ease-in;
             width: 35%;
             background: beige;
-            margin-bottom: 100%;
+            margin-top: 100%;
         }        
         
         .${CSS.winClassShow} {  

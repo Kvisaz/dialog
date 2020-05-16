@@ -15,6 +15,7 @@ const libraryName = 'Kvisaz';
         wrapperClass: 'kvisaz-dialog-wrapper',
         shadowClass: 'kvisaz-shadow',
         winId: 'kvisaz-dialog',
+        warningClass: 'kvisaz-dialog-warning',
         winClass: 'kvisaz-dialog',
         winClassShow: 'kvisaz-dialog-show',
         winContentClass: 'kvisaz-dialog-content',
@@ -153,8 +154,8 @@ const libraryName = 'Kvisaz';
         }
     }
 
-    function removeWrapper() {
-        const el = document.body.querySelector(`.${CSS.wrapperClass}`);
+    function removeWrapper(buttonEl) {
+        const el = buttonEl.closest(`.${CSS.wrapperClass}`);
         if (el == null) {
             console.warn('no wrapper window');
             return;
@@ -196,19 +197,44 @@ const libraryName = 'Kvisaz';
     function onButtonClick(buttonEl) {
         try {
             const btIndex = buttonEl.dataset.index;
+            const warning = buttonEl.dataset.warning;
             const callback = module.options.buttons[btIndex].callback;
 
-            setTimeout(() => {
-                removeWrapper();
-            }, 0);
-
-            setTimeout(() => {
-                if (callback) callback();
-            }, 0);
+            if (warning != null) onWarningClick(buttonEl, warning, ()=>{
+                onSimpleClick(buttonEl, callback)
+            })
+            else onSimpleClick(buttonEl, callback);
 
         } catch (e) {
             console.warn(e)
         }
+    }
+
+    function onSimpleClick(buttonEl, callback) {
+        setTimeout(() => {
+            removeWrapper(buttonEl);
+        }, 0);
+
+        setTimeout(() => {
+            if (callback) callback();
+        }, 0);
+    }
+
+    function onWarningClick(buttonEl, warning, callback) {
+        dialog({
+            addClass: CSS.warningClass,
+            text: warning,
+            buttons: [
+                {
+                    text: 'OK',
+                    callback: callback
+                },
+                {
+                    text: 'Cancel',
+                    callback: ()=> {}
+                }
+            ]
+        })
     }
 
     /**************************************
@@ -239,7 +265,11 @@ const libraryName = 'Kvisaz';
     }
 
     function getButtonHtml(btOptions, index) {
-        return `<div class="${CSS.buttonClass}" data-index="${index}">${btOptions.text}</div>`;
+        const warningAttr = btOptions.warning != null
+            ? `data-warning="${btOptions.warning}"`
+            : '';
+
+        return `<div class="${CSS.buttonClass}" ${warningAttr} data-index="${index}">${btOptions.text}</div>`;
     }
 
     function getButtonsHTML(options) {

@@ -5,12 +5,17 @@ document.body.addEventListener('click', e=>{
 const button = document.body.querySelector('#button');
 button.addEventListener('click', e=> Kvisaz.dialog({
     addClass: 'customDialog',
-    title: "Диалог",
-    text: "Текст",
+    title: "Опасное действие",
+    text: "Могут быть последствияТекст",
     buttons: [
         {
-            text: "Кнопка 1",
-            callback: ()=> console.log('Нажата кнопка 1')
+            text: "Удалить",
+            callback: ()=> console.log('Нажата кнопка Удалить'),
+            warning: 'Вы уверены?' // должно появиться дополнительное окно
+        },
+        {
+            text: "Отменить",
+            callback: ()=> console.log('Нажата кнопка Отменить')
         },
      /*   {
             text: "Кнопка 2",

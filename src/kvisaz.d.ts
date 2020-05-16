@@ -17,5 +17,6 @@ export interface IKvisazLibDialogOptions {
 
 export interface  IKvisazLibButton {
     text: string;
-    callback: Function
+    callback: Function;
+    warning?: string; // текст предупреждения
 }

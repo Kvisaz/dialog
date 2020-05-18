@@ -8,6 +8,9 @@ const libraryName = 'Kvisaz';
     module.moduleName = moduleName;
     module.dialog = dialog;
 
+    module.optionHash = {}; // hash опций
+    module.counter = 0; // id для hash опций
+
     /**************
      *  CSS
      **************/
@@ -107,10 +110,17 @@ const libraryName = 'Kvisaz';
      * @param options
      */
     function dialog(options) {
+        // уникальные опции для каждого вызова
+        module.counter++;
+        module.optionHash[module.counter] = options;
+
         const wrapper = createWrapper(options);
+        setOptionsId(wrapper, module.counter);
         wrapper.classList.add(CSS.shadowClass);
+
         // const shadow = createShadow(options);
         const win = createWindow(options);
+
         //  wrapper.appendChild(shadow);
         wrapper.appendChild(win);
 
@@ -154,14 +164,37 @@ const libraryName = 'Kvisaz';
         }
     }
 
+    function getWrapper(child) {
+        return child.closest(`.${CSS.wrapperClass}`);
+    }
+
+    function getOptionsId(child) {
+        const wrapper = getWrapper(child);
+        return wrapper.dataset.optionsId;
+    }
+
+    function getOptions(child) {
+        const id = getOptionsId(child);
+        return module.optionHash[id];
+    }
+
+    function setOptionsId(wrapper, optionsId) {
+        wrapper.dataset.optionsId = optionsId;
+    }
+
     function removeWrapper(buttonEl) {
-        const el = buttonEl.closest(`.${CSS.wrapperClass}`);
-        if (el == null) {
+        const wrapper = getWrapper(buttonEl);
+        if (wrapper == null) {
             console.warn('no wrapper window');
             return;
         }
-        el.removeEventListener('click', onWrapperClick);
-        if (el.parentNode != null) el.parentNode.removeChild(el);
+
+        const optionsId = getOptionsId(wrapper);
+        module.optionHash[optionsId] = null;
+        delete module.optionHash[optionsId];
+
+        wrapper.removeEventListener('click', onWrapperClick);
+        if (wrapper.parentNode != null) wrapper.parentNode.removeChild(wrapper);
     }
 
     /**************************************
@@ -184,7 +217,6 @@ const libraryName = 'Kvisaz';
 
         // winEl.addEventListener('click', onWindowClick)
 
-        module.options = options;
 
         setTimeout(() => {
             winEl.classList.add(CSS.winClassShow);
@@ -198,9 +230,10 @@ const libraryName = 'Kvisaz';
         try {
             const btIndex = buttonEl.dataset.index;
             const warning = buttonEl.dataset.warning;
-            const callback = module.options.buttons[btIndex].callback;
+            const options = getOptions(buttonEl);
+            const callback = options.buttons[btIndex].callback;
 
-            if (warning != null) onWarningClick(buttonEl, warning, ()=>{
+            if (warning != null) onWarningClick(buttonEl, warning, () => {
                 onSimpleClick(buttonEl, callback)
             })
             else onSimpleClick(buttonEl, callback);
@@ -231,7 +264,8 @@ const libraryName = 'Kvisaz';
                 },
                 {
                     text: 'Cancel',
-                    callback: ()=> {}
+                    callback: () => {
+                    }
                 }
             ]
         })

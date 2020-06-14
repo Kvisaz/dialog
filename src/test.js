@@ -45,3 +45,12 @@ button.addEventListener('click', e=> Kvisaz.dialog({
         },*/
     ]
 }))
+
+Kvisaz.window({
+    addClass: 'customDialog',
+    html: '<h1>Hello</h1><button>Press Me</button>',
+    onClick: e=> {
+        const wrapper = e.target.closest(Kvisaz.getWrapperSelector());
+        Kvisaz.close(wrapper);
+    }
+})

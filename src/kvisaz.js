@@ -93,9 +93,7 @@ const libraryName = 'Kvisaz';
             cursor: pointer;
             padding: 1em;
             margin: 1em;
-            width: 6em;
             text-align: center;
-            height: 2em;
             border: 2px outset #c4c0c0;
             transform: scale(1);
         }
